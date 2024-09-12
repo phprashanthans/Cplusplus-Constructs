@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+#include <map>
+
+typedef unsigned int uint32;
+typedef void (*FuncPtr)(int, double);
+typedef struct {
+    int x;
+    int y;
+} Point2D;
+typedef std::vector<int> IntVector;
+
+// vs
+
+using uint32 = unsigned int;
+using FuncPtr = void(*)(int, double);
+struct Point {
+    int x;
+    int y;
+};
+using Point2D = Point;
+using StringIntVectorMap = std::map<std::string, std::vector<int>>;
+template<typename T>
+using Vec = std::vector<T>;
+using namespace std;
+using std::cout;
