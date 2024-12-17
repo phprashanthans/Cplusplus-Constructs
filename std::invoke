@@ -1,0 +1,38 @@
+/*---------------------------------------------------------------------------------
+std::invoke ==> is a utility that can invoke any callable with the provided arguments. 
+Free functions, Static methods, functors, pointers to free/class member functions
+----------------------------------------------------------------------------------*/
+
+#include <iostream>
+#include <functional>
+#include <string>
+
+// Free Function
+void freeFunction(const std::string& message) {
+    std::cout << "Free Function: " << message << std::endl;
+}
+
+// Callable object (Functor)
+struct CallableObject {
+    void operator()(const std::string& message) const {
+        std::cout << "Callable Object: " << message << std::endl;
+    }
+};
+
+// Member function in a class 
+class MyClass {
+    public:
+        void memberFunction(const std::string& message) const {
+            std::cout << "Member Function: " << message << std::endl;
+        }
+};
+
+int main() {
+    std::invoke(freeFunction, "Hello from free function!");
+    CallableObject callableObject;
+    std::invoke(callableObject, "Hello from callable object!");
+    MyClass myObject;
+    auto memberFuncPointer = &MyClass::memberFunction;
+    std::invoke(memberFuncPointer, myObject, "Hello from member function!");
+    return 0;
+}
