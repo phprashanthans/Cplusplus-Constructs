@@ -1,4 +1,20 @@
+/**************************************************************************************
+In C++ memory model, we can allocate memory in the global/static regions, which lasts for
+the entire execution of the application, the stack which is fast local memory but limited
+and the heap, all the free RAM on your PC.
+The idea behind a smart pointer is that you can allocate the smart pointer object on the
+stack, heap or global memory, and internally it will have a pointer storing the address
+of a memory allocated on the heap. When the smart pointer object goes out of scope, say
+because of function got ended, there has been a return or an exception, it will be
+automatically destroyed. And this is where the magic happens: when it is destroyed, its
+destructor is called and a delete is performed inside it. With this you only worry about 
+allocating the object and not the de-allocation as the "garbage" will be automatically 
+collected. 
+std::unique_ptr -> Only one pointer points to a specific memory region.
+***************************************************************************************/
+
 #include <iostream>
+#include <algorithm>
 
 template <typename T>
 class Unique_ptr {
@@ -8,10 +24,10 @@ class Unique_ptr {
             m_ptr = ptr;
         }
         // Copy Constructor and assignment operator deleted
-        Unique_ptr(const Unique_ptr&) = delete;
-        Unique_ptr& operator=(const Unique_ptr&) = delete;
+        Unique_ptr(const Unique_ptr&) noexcept = delete;
+        Unique_ptr& operator=(const Unique_ptr&) constexpr = delete;
         // Move constructor and assignment operator 
-        Unique_ptr(Unique_ptr&& up) {
+        Unique_ptr(Unique_ptr&& up) noexcept {
             m_ptr = up.m_ptr;
             up.m_ptr = nullptr;
         }
@@ -28,7 +44,7 @@ class Unique_ptr {
             return m_ptr;
         }
         // Overload = operator
-        void operator=(Unique_ptr&& up) {
+        void operator=(Unique_ptr&& up) noexcept {
             if (m_ptr != up.m_ptr) {
                 delete m_ptr;
                 m_ptr = up.m_ptr;
