@@ -25,4 +25,8 @@ int main() {
     WhichCtor({0, 1, 2});
     return 0;
 }
-
+/*************************************************
+O/P:
+WhichCtor::WhichCtor(int, int, int)
+WhichCtor::WhichCtor(std::initializer_list<int>)
+*************************************************/
