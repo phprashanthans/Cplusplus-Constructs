@@ -48,3 +48,26 @@ int main() {
 }
 /*-----------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------*/
+
+
+#include <iostream>
+
+template <typename T>
+concept Printable = requires(T value) {
+    {std::cout << value } -> std::same_as<std::ostream&>;
+};
+
+void Print(Printable auto const& value) {
+    std::cout << value << std::endl;
+}
+
+int main() {
+    Print("Hello, Concepts!");
+    return 0;
+}
+
+
+
+
+
+
